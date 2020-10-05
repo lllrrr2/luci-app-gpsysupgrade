@@ -14,6 +14,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	var updateInProgressNotice = '<%:Upgrading, are you sure to close?%>';
 	var downloadingText = '<%:Downloading...%>';
 	var flashing = '<%:Flashing...%>';
+	var checking = '<%:Checking...%>';
 
 	window.onload = function() {
 		var sysupCheckBtn = document.getElementById('_sysup-check_btn');
@@ -64,7 +65,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 
 	function checkUpdate_sysup(btn) {
 		btn.disabled = true;
-		btn.value = inProgressText;
+		btn.value = checking;
 
 		addPageNotice_sysup();
 
