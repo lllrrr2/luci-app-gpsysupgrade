@@ -4,6 +4,9 @@ msgstr "系统在线更新"
 msgid "Upgrade..."
 msgstr "更新中"
 
+msgid "当前固件版本"
+msgstr "Current system version"
+
 msgid "It is the latest version"
 msgstr "已是最新版本"
 
