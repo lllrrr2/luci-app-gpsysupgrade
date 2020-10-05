@@ -1,0 +1,160 @@
+<%
+local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_system_version()
+-%>
+
+<script type="text/javascript">
+	//<![CDATA[
+	var sysUpgradeInfo;
+	var tokenStr = '<%=token%>';
+	var noUpdateText = '<%:It is the latest version%>';
+	var updateSuccessText = '<%:Upgrade successful%>';
+	var clickToUpdateText = '<%:Click to Upgrade%>';
+	var inProgressText = '<%:Upgrading...%>';
+	var unexpectedErrorText = '<%:Unexpected error%>';
+	var updateInProgressNotice = '<%:Upgrading, are you sure to close?%>';
+	var downloadingText = '<%:Downloading...%>';
+	var flashing = '<%:Flashing...%>';
+
+	window.onload = function() {
+		var sysupCheckBtn = document.getElementById('_sysup-check_btn');
+		var sysupDetailElm = document.getElementById('_sysup-check_btn-detail');
+	};
+
+	function addPageNotice_sysup() {
+		window.onbeforeunload = function(e) {
+			e.returnValue = updateInProgressNotice;
+			return updateInProgressNotice;
+		};
+	}
+
+	function removePageNotice_sysup() {
+		window.onbeforeunload = undefined;
+	}
+
+	function onUpdateSuccess_sysup(btn) {
+		alert(updateSuccessText);
+
+		if(btn) {
+			btn.value = updateSuccessText;
+			btn.placeholder = updateSuccessText;
+			btn.disabled = true;
+		}
+
+		window.setTimeout(function() {
+			window.location.reload();
+		}, 1000);
+	}
+
+	function onRequestError_sysup(btn, errorMessage) {
+		btn.disabled = false;
+		btn.value = btn.placeholder;
+
+		if(errorMessage) {
+			alert(errorMessage);
+		}
+	}
+
+	function onBtnClick_sysup(btn) {
+		if(sysUpgradeInfo === undefined) {
+			checkUpdate_sysup(btn);
+		} else {
+			doUpdate_sysup(btn);
+		}
+	}
+
+	function checkUpdate_sysup(btn) {
+		btn.disabled = true;
+		btn.value = inProgressText;
+
+		addPageNotice_sysup();
+
+		var ckeckDetailElm = document.getElementById(btn.id + '-detail');
+
+		XHR.get('<%=url([[admin]], [[system]], [[gpsysupgrade]], [[sysversion_check]])%>', {
+			token: tokenStr,
+			model: ''
+		}, function(x,json) {
+			removePageNotice_sysup();
+
+			if(json.code) {
+				sysUpgradeInfo = undefined;
+				onRequestError_sysup(btn, json.error);
+			} else {
+				if(json.update) {
+					sysUpgradeInfo = json;
+					btn.disabled = false;
+					btn.value = clickToUpdateText;
+					btn.placeholder = clickToUpdateText;
+					
+					if(ckeckDetailElm) {
+						var urlNode = '';
+						if(json.version) {
+							urlNode = '<em style="color:red;">最新版本号：' + json.version + '</em>';
+							if(json.url && json.url.html) {
+							alert(json.url.html)
+								urlNode = '<a href="' + json.url.html + '" target="_blank">' + urlNode + '</a>';
+							}
+						}
+					ckeckDetailElm.innerHTML = urlNode;
+					}
+				} else {
+					btn.disabled = true;
+					btn.value = noUpdateText;
+				}
+			}
+		},300);
+	}
+
+	function doUpdate_sysup(btn) {
+		btn.disabled = true;
+		btn.value = downloadingText;
+
+		addPageNotice_sysup();
+
+		var sysUpgradeUrl = '<%=url([[admin]], [[system]], [[gpsysupgrade]], [[sysversion_update]])%>';
+		// Download file
+		XHR.get(sysUpgradeUrl, {
+			token: tokenStr,
+			url: sysUpgradeInfo ? sysUpgradeInfo.url.download : ''
+		}, function(x,json) {
+			if(json.code) {
+				removePageNotice_sysup();
+				onRequestError_sysup(btn, json.error);
+			} else {
+						btn.value = flashing;
+
+						XHR.get(sysUpgradeUrl, {
+							token: tokenStr,
+							task: 'flash',
+							file: json.file
+						}, function(x,json) {
+							removePageNotice_sysup();
+							if(json.code) {
+								onRequestError_sysup(btn, json.error);
+							} else {
+								onUpdateSuccess_sysup(btn);
+							}
+						},300)
+			}
+		},300)
+	}
+	//]]>
+		XHR.poll(3,'<%=luci.dispatcher.build_url("admin/status/overview")%>', null,
+)
+</script>
+
+<div class="cbi-value">
+	<label class="value-title" style="float:left;">
+		<%:Current system version%>
+	</label>
+	<div class="cbi-value-field">
+		<div class="cbi-value-description">
+			<span>【 <%=system_version%> 】</span>
+			<br/>
+
+		</div>
+
+	</div>
+						<input class="cbi-button cbi-input-apply cbi-button-reset" type="button" id="_sysup-check_btn" onclick="onBtnClick_sysup(this);" value="<%:Check update%>" />
+			<span id="_sysup-check_btn-detail"></span>
+</div>
