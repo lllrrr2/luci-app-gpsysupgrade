@@ -7,8 +7,8 @@ msgstr "更新中"
 msgid "Current system version"
 msgstr "当前固件版本"
 
-msgid "It is the latest version"
-msgstr "已是最新版本"
+msgid "It is the latest version,Force update?"
+msgstr "已是最新版,强制更新?"
 
 msgid "Upgrade successful"
 msgstr "更新成功"
@@ -53,4 +53,4 @@ msgid "File download failed or timed out: %s"
 msgstr "固件下载失败或超时：%s"
 
 msgid "Firmware file required."
-msgstr "请指定文件路径。"
+msgstr "固件文件未找到。"
