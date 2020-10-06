@@ -13,7 +13,7 @@ msgstr "已是最新版本"
 msgid "Upgrade successful"
 msgstr "更新成功"
 
-msgid "Click to upgrade"
+msgid "Click to Upgrade"
 msgstr "点击更新"
 
 msgid "Upgrading..."
