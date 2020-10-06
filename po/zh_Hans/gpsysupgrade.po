@@ -7,8 +7,8 @@ msgstr "更新中"
 msgid "Current system version"
 msgstr "当前固件版本"
 
-msgid "It is the latest version,Force update?"
-msgstr "已是最新版,强制更新?"
+msgid "It is the latest version,Reflash?"
+msgstr "已是最新版,重刷此版本?"
 
 msgid "Upgrade successful"
 msgstr "更新成功"
