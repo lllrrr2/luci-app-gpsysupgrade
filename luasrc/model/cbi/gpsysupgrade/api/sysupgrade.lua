@@ -17,14 +17,14 @@ function to_check(model)
     local download_url,remote_version,needs_update,dateyr
 	local version_file = "/tmp/version.txt"
 	if model == "x86_64" then
-		if fs.access("/sys/firmware/efi") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/x86_64/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
-		download_url = "https://op.supes.top/firmware/x86_64/" ..dateyr.. "-openwrt-x86-64-generic-squashfs-combined-efi.img.gz"
+		if fs.access("/sys/firmware/efi") then
+			download_url = "https://op.supes.top/firmware/x86_64/" ..dateyr.. "-openwrt-x86-64-generic-squashfs-combined-efi.img.gz"
 		else
-		download_url = "https://op.supes.top/firmware/x86_64/" ..dateyr.. "-openwrt-x86-64-generic-squashfs-combined.img.gz"
+			download_url = "https://op.supes.top/firmware/x86_64/" ..dateyr.. "-openwrt-x86-64-generic-squashfs-combined.img.gz"
 		end
     elseif model:match(".*K2P.*") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/phicomm_k2p/version.txt"}, nil, api.command_timeout)
