@@ -71,7 +71,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 
 		var ckeckDetailElm = document.getElementById(btn.id + '-detail');
 
-		XHR.get('<%=url([[admin]], [[system]], [[gpsysupgrade]], [[sysversion_check]])%>', {
+		XHR.get('<%=url([[admin]], [[services]], [[gpsysupgrade]], [[sysversion_check]])%>', {
 			token: tokenStr,
 			model: ''
 		}, function(x,json) {
@@ -112,7 +112,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 
 		addPageNotice_sysup();
 
-		var sysUpgradeUrl = '<%=url([[admin]], [[system]], [[gpsysupgrade]], [[sysversion_update]])%>';
+		var sysUpgradeUrl = '<%=url([[admin]], [[services]], [[gpsysupgrade]], [[sysversion_update]])%>';
 		// Download file
 		XHR.get(sysUpgradeUrl, {
 			token: tokenStr,

@@ -4,7 +4,7 @@ local appname = "gpsysupgrade"
 m = Map(appname)
 
 -- [[ App Settings ]]--
-s = m:section(TypedSection, "gpsysupgrade", translate("System Upgrade"))
+s = m:section(TypedSection, "gpsysupgrade", translate("System upgrade"))
 s.anonymous = true
 
 s:append(Template("gpsysupgrade/system_update/system_version"))
