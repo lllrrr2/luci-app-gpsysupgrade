@@ -27,11 +27,11 @@ function to_check(model)
 			download_url = "https://op.supes.top/firmware/x86_64/" ..dateyr.. "-openwrt-x86-64-generic-squashfs-combined.img.gz"
 		end
     elseif model:match(".*K2P.*") then
-		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/phicomm_k2p/version.txt"}, nil, api.command_timeout)
+		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/phicomm-k2p/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
-        download_url = "https://op.supes.top/firmware/phicomm_k2p/" ..dateyr.. "-openwrt-ramips-mt7621-phicomm_k2p-squashfs-sysupgrade.bin"
+        download_url = "https://op.supes.top/firmware/phicomm-k2p/" ..dateyr.. "-openwrt-ramips-mt7621-phicomm_k2p-squashfs-sysupgrade.bin"
     elseif model:match(".*AC2100.*") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/redmi-ac2100/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
@@ -44,12 +44,12 @@ function to_check(model)
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
         download_url = "https://op.supes.top/firmware/nanopi-r2s/" ..dateyr.. "-openwrt-rockchip-armv8-nanopi-r2s-squashfs-sysupgrade.img.gz"
-    elseif model:match(".*hc5962.*") then
-		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/hiwifi_hc5962/version.txt"}, nil, api.command_timeout)
+    elseif model:match(".*HC5962.*") then
+		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/hiwifi-hc5962/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
-        download_url = "https://op.supes.top/firmware/hiwifi_hc5962/" ..dateyr.. "-ramips-mt7621-hiwifi_hc5962-squashfs-sysupgrade.bin"
+        download_url = "https://op.supes.top/firmware/hiwifi-hc5962/" ..dateyr.. "-ramips-mt7621-hiwifi_hc5962-squashfs-sysupgrade.bin"
     elseif model:match(".*D2") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/newifi-d2/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
@@ -57,11 +57,11 @@ function to_check(model)
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
         download_url = "https://op.supes.top/firmware/newifi-d2/" ..dateyr.. "-ramips-mt7621-newifi-d2-squashfs-sysupgrade.bin"
     elseif model:match(".*armvirt-64") then
-		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/N1/version.txt"}, nil, api.command_timeout)
+		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/phicomm-N1/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
-        download_url = "https://op.supes.top/firmware/N1/" ..dateyr.. "-openwrt-armvirt-64-default-rootfs.tar.gz"
+        download_url = "https://op.supes.top/firmware/phicomm-N1/" ..dateyr.. "-openwrt-armvirt-64-default-rootfs.tar.gz"
 	else
 		local needs_update = false
 		return {
