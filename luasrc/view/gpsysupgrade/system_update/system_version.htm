@@ -180,6 +180,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	    label = document.querySelector('p.reboot-message span');
 
 	function ok() {
+		window.onbeforeunload = null;
 		window.location = '<%=url("admin")%>';
 	}
 
