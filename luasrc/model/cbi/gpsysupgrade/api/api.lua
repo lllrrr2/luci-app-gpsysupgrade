@@ -92,7 +92,8 @@ function auto_get_model()
 		if arch == "x86_64" then
 		model = "x86_64"
 		else
-        model = sys.exec("echo -n `cat /proc/cpuinfo| grep 'machine' | awk -F:\  '{printf $2}'`")
+        local boardinfo = luci.util.ubus("system", "board") or { }
+		model = boardinfo.model
 		end
     end
     return util.trim(model)
