@@ -92,6 +92,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 				sysUpgradeInfo = undefined;
 				onRequestError_sysup(btn, json.error);
 			} else {
+			document.querySelector('#retain').style.display = '';
 				if(json.update) {
 					sysUpgradeInfo = json;
 					btn.disabled = false;
@@ -135,10 +136,17 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 						message.style.display = '';
 							label.innerHTML = '<%:Waiting for device...%>';
 							check();
+			var opts = "";
+		if (!kconfig.checked)
+			opts += "-n";
+
+		if (kopkg.checked)
+			opts += " -k";
 						XHR.get(sysUpgradeUrl, {
 							token: tokenStr,
 							task: 'flash',
 							file: json.file
+							retain: opts
 						}, function(x,json) {
 							removePageNotice_sysup();
 							if(json.code) {
@@ -166,6 +174,10 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 		</div>
 
 	</div>
+<div id="retain" style="display:none">
+	<p><label class="btn"><input type="checkbox" checked id="kconfig"> <%:Keep settings and retain the current configuration%></label></p>
+<p><label class="btn"><input type="checkbox" checked id="kopkg"> <%:Retain the current packages%></label></p>
+</div>
 						<input class="cbi-button cbi-input-apply cbi-button-reset" type="button" id="_sysup-check_btn" onclick="onBtnClick_sysup(this);" value="<%:Check update%>" />
 			<span id="_sysup-check_btn-detail"></span>
 </div>
@@ -175,6 +187,8 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 </p>
 <script type="text/javascript">
 	//<![CDATA[
+		kconfig = document.querySelector('#kconfig'),
+	    kopkg = document.querySelector('#kopkg');
 	var tries = 0,
 	    message = document.querySelector('p.reboot-message'),
 	    label = document.querySelector('p.reboot-message span');
