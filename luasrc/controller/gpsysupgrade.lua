@@ -29,7 +29,7 @@ function sysversion_update()
 	local json = nil
 	local task = http.formvalue("task")
 	if task == "flash" then
-		json = sysupgrade.to_flash(http.formvalue("file"))
+		json = sysupgrade.to_flash(http.formvalue("file"),http.formvalue("retain"))
 	else
 		json = sysupgrade.to_download(http.formvalue("url"))
 	end
