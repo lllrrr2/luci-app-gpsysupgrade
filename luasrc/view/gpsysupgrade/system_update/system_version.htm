@@ -137,11 +137,16 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 							label.innerHTML = '<%:Waiting for device...%>';
 							check();
 			var opts = "";
-		if (!kconfig.checked)
-			opts += "-n";
+		if (!kconfig.checked){
+			opts = "-n";
+			}
 
-		if (kopkg.checked)
-			opts += " -k";
+		if (kopkg.checked){
+			opts = "-k";
+			}
+		if (!kconfig.checked && kopkg.checked){
+			opts = "-n -k";
+			}
 						XHR.get(sysUpgradeUrl, {
 							token: tokenStr,
 							task: 'flash',
