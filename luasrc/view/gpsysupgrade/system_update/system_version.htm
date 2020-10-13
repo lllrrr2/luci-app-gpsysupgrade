@@ -192,11 +192,11 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 </p>
 <script type="text/javascript">
 	//<![CDATA[
-		kconfig = document.querySelector('#kconfig');
+	var tries = 0,
+	    kconfig = document.querySelector('#kconfig'),
 	    kopkg = document.querySelector('#kopkg');
-	var tries = 0;
-	    message = document.querySelector('p.reboot-message');
-	    label = message.querySelector('span');
+	var message = document.querySelector('p.reboot-message');
+	var label = message.querySelector('span');
 
 	function ok() {
 		window.onbeforeunload = null;
