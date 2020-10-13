@@ -30,6 +30,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	window.onload = function() {
 		var sysupCheckBtn = document.getElementById('_sysup-check_btn');
 		var sysupDetailElm = document.getElementById('_sysup-check_btn-detail');
+		checkUpdate_sysup(sysupCheckBtn)
 	};
 
 	function addPageNotice_sysup() {
@@ -171,10 +172,11 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	<label class="value-title" style="float:left;">
 		<%:Current system version%>
 	</label>
+	
 	<div class="cbi-value-field">
 		<div class="cbi-value-description">
 			<span>【 <%=system_version%> 】</span>
-			<br/>
+		&nbsp;&nbsp;&nbsp;<span id="_sysup-check_btn-detail"></span>
 
 		</div>
 
@@ -184,7 +186,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 <p><label class="btn"><input type="checkbox" checked id="kopkg"> <%:Retain the current packages%></label></p>
 </div>
 						<input class="cbi-button cbi-input-apply cbi-button-reset" type="button" id="_sysup-check_btn" onclick="onBtnClick_sysup(this);" value="<%:Check update%>" />
-			<span id="_sysup-check_btn-detail"></span>
+			
 </div>
 <p class="alert-message notice reboot-message" style="display:none">
 	<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" />
