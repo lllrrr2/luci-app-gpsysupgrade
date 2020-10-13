@@ -1,0 +1,33 @@
+<%
+local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_system_version()
+-%>
+<script>
+var tokenStr = '<%=token%>';
+
+		XHR.get('<%=url([[admin]], [[services]], [[gpsysupgrade]], [[sysversion_check]])%>', {
+			token: tokenStr,
+			model: ''
+		}, function(x,json) {
+			if(json.code) {
+			
+			} else {
+				if(json.update) {
+					sysUpgradeInfo = json;
+					setTimeout(function(){
+					var ckeckDetailElm = document.querySelectorAll(".cbi-section h3")[0];
+					if(ckeckDetailElm) {
+						var urlNode = '';
+						if(json.version) {
+							urlNode = '<a href="<%=url([[admin]], [[services]], [[gpsysupgrade]])%>"><em style="color:red;font-size:1rem">新版本可用：' + json.version + '</em></a>';
+							 ckeckDetailElm.innerHTML = urlNode; ;
+						}
+					
+					}
+				}, 1000);
+				} else {
+
+				}
+			}
+		},300);
+
+</script>
