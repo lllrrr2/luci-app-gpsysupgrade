@@ -49,13 +49,19 @@ function to_check(model)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
-        download_url = "https://op.supes.top/firmware/hiwifi-hc5962/" ..dateyr.. "-ramips-mt7621-hiwifi_hc5962-squashfs-sysupgrade.bin"
+        download_url = "https://op.supes.top/firmware/hiwifi-hc5962/" ..dateyr.. "-openwrt-ramips-mt7621-hiwifi_hc5962-squashfs-sysupgrade.bin"
     elseif model:match(".*D2") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/newifi-d2/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
-        download_url = "https://op.supes.top/firmware/newifi-d2/" ..dateyr.. "-ramips-mt7621-newifi-d2-squashfs-sysupgrade.bin"
+        download_url = "https://op.supes.top/firmware/newifi-d2/" ..dateyr.. "-openwrt-ramips-mt7621-newifi-d2-squashfs-sysupgrade.bin"
+    elseif model:match(".*XIAOYU") then
+		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/XY-C5/version.txt"}, nil, api.command_timeout)
+		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
+		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
+		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
+        download_url = "https://op.supes.top/firmware/XY-C5/" ..dateyr.. "-openwrt-ramips-mt7621-xiaoyu_xy-c5-squashfs-sysupgrade.bin"
 	else
 		local needs_update = false
 		return {
