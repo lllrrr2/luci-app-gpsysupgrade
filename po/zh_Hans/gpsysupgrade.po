@@ -54,3 +54,6 @@ msgstr "固件下载失败或超时：%s"
 
 msgid "Firmware file required."
 msgstr "固件文件未找到。"
+
+msgid "New version available"
+msgstr "新版本可用"
