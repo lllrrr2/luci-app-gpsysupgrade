@@ -14,12 +14,12 @@ var tokenStr = '<%=token%>';
 				if(json.update) {
 					sysUpgradeInfo = json;
 					setTimeout(function(){
-					var ckeckDetailElm = document.querySelectorAll(".cbi-section h3")[0];
+					var ckeckDetailElm = document.querySelector("#maincontent");
 					if(ckeckDetailElm) {
 						var urlNode = '';
 						if(json.version) {
-							urlNode = '<a href="<%=url([[admin]], [[services]], [[gpsysupgrade]])%>"><em style="color:red;font-size:1rem">新版本可用：' + json.version + '</em></a>';
-							 ckeckDetailElm.innerHTML = urlNode; ;
+							urlNode = '<div class="alert-message fade-in success" style="display:flex;margin-top:2.6rem;"><div style="flex:10"><a href="<%=url([[admin]], [[services]], [[gpsysupgrade]])%>"><p>新版本可用：' + json.version + '</p></a></div></div>';
+							 ckeckDetailElm.innerHTML=urlNode+ckeckDetailElm.innerHTML;
 						}
 					
 					}
