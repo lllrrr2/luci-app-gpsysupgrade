@@ -7,6 +7,6 @@ m = Map(appname)
 s = m:section(TypedSection, "gpsysupgrade", translate("System upgrade"))
 s.anonymous = true
 
-s:append(Template("gpsysupgrade/system_update/system_version"))
+s:append(Template("gpsysupgrade/system_version"))
 
 return m
