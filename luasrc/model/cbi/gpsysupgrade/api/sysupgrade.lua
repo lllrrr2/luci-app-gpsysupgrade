@@ -118,7 +118,7 @@ function to_flash(file,retain)
         return {code = 1, error = i18n.translate("Firmware file is required.")}
     end
 if not retain or retain == "" then
-	local result = api.exec("/sbin/sysupgrade", {"-k", file}, nil, api.command_timeout) == 0
+	local result = api.exec("/sbin/sysupgrade", {file}, nil, api.command_timeout) == 0
 else
 	local result = api.exec("/sbin/sysupgrade", {retain, file}, nil, api.command_timeout) == 0
 end
