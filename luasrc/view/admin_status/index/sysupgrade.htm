@@ -18,7 +18,7 @@ var tokenStr = '<%=token%>';
 					if(ckeckDetailElm) {
 						var urlNode = '';
 						if(json.version) {
-							urlNode = '<div class="alert-message fade-in success" style="display:flex;margin-top: -1.5rem;padding: 0.31rem 0rem;"><div style="flex:10"><a href="<%=url([[admin]], [[services]], [[gpsysupgrade]])%>"><p>New version available：' + json.version + '</p></a></div></div>';
+							urlNode = '<div class="alert-message fade-in success" style="display:flex;margin-top: -1.5rem;padding: 0.31rem 0rem;"><div style="flex:10"><a href="<%=url([[admin]], [[services]], [[gpsysupgrade]])%>"><p><%:New version available%>：' + json.version + '</p></a></div></div>';
 							 ckeckDetailElm.innerHTML=urlNode+ckeckDetailElm.innerHTML;
 						}
 					
