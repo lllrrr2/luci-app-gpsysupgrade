@@ -13,6 +13,11 @@ command_timeout = 300
 LEDE_BOARD = nil
 DISTRIB_TARGET = nil
 
+function _unpack(t, i)
+    i = i or 1
+    if t[i] ~= nil then return t[i], _unpack(t, i + 1) end
+end
+
 function exec(cmd, args, writer, timeout)
     local os = require "os"
     local nixio = require "nixio"
