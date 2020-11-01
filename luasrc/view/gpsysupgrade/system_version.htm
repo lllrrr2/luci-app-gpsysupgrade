@@ -136,7 +136,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 						btn.value = flashing;
 						message.style.display = '';
 							label.innerHTML = '<%:Waiting for device...%>';
-							check();
+							
 			var opts = "";
 		if (!kconfig.checked){
 			opts = "-n";
@@ -158,7 +158,8 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 							if(json.code) {
 								onRequestError_sysup(btn, json.error);
 							} else {
-								onUpdateSuccess_sysup(btn);
+								check();
+								// onUpdateSuccess_sysup(btn);
 							}
 						},300)
 			}
