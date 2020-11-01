@@ -41,7 +41,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	}
 
 	function removePageNotice_sysup() {
-		window.onbeforeunload = undefined;
+		window.onbeforeunload = null;
 	}
 
 	function onUpdateSuccess_sysup(btn) {
@@ -155,11 +155,11 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 							retain: opts
 						}, function(x,json) {
 							removePageNotice_sysup();
+							check();
 							if(json.code) {
 								onRequestError_sysup(btn, json.error);
 							} else {
-								check();
-								// onUpdateSuccess_sysup(btn);
+								 onUpdateSuccess_sysup(btn);
 							}
 						},300)
 			}
@@ -202,7 +202,6 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	var label = message.querySelector('span');
 
 	function ok() {
-		window.onbeforeunload = null;
 		window.location = '<%=url("admin")%>';
 	}
 
