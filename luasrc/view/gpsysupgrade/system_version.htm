@@ -156,11 +156,6 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 						}, function(x,json) {
 							removePageNotice_sysup();
 							check();
-							if(json.code) {
-								onRequestError_sysup(btn, json.error);
-							} else {
-								 onUpdateSuccess_sysup(btn);
-							}
 						},300)
 			}
 		},300)
