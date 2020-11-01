@@ -14,15 +14,16 @@ end
 function to_check(model)
     if not model or model == "" then model = api.auto_get_model() end
     
-    local download_url,remote_version,needs_update,remoteformat,sysverformat,dateyr
+    local download_url,remote_version,needs_update,remoteformat,sysverformat,currentTimeStamp,dateyr
 	local version_file = "/tmp/version.txt"
-	sysverformat = luci.sys.exec("expr $(date -d $(echo " ..get_system_version().. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s) + 259200")
+	sysverformat = luci.sys.exec("date -d $(echo " ..get_system_version().. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
+	currentTimeStamp = luci.sys.exec("expr $(date -d \"+%Y-%m-%d %H:%M:%S\" +%s) - 259200")
 	if model == "x86_64" then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/x86_64/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		remoteformat = luci.sys.exec("date -d $(echo " ..remote_version.. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-		if remoteformat > sysverformat then needs_update = true else needs_update = false end
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
 		if fs.access("/sys/firmware/efi") then
 			download_url = "https://op.supes.top/firmware/x86_64/" ..dateyr.. "-openwrt-x86-64-generic-squashfs-combined-efi.img.gz"
 		else
@@ -33,41 +34,41 @@ function to_check(model)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		remoteformat = luci.sys.exec("date -d $(echo " ..remote_version.. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-		if remoteformat > sysverformat then needs_update = true else needs_update = false end
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
         download_url = "https://op.supes.top/firmware/phicomm-k2p/" ..dateyr.. "-openwrt-ramips-mt7621-phicomm_k2p-squashfs-sysupgrade.bin"
     elseif model:match(".*AC2100.*") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/redmi-ac2100/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		remoteformat = luci.sys.exec("date -d $(echo " ..remote_version.. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-		if remoteformat > sysverformat then needs_update = true else needs_update = false end
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
         download_url = "https://op.supes.top/firmware/redmi-ac2100/" ..dateyr.. "-openwrt-ramips-mt7621-redmi-ac2100-squashfs-sysupgrade.bin"
     elseif model:match(".*R2S.*") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/nanopi-r2s/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		remoteformat = luci.sys.exec("date -d $(echo " ..remote_version.. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-		if remoteformat > sysverformat then needs_update = true else needs_update = false end
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
         download_url = "https://op.supes.top/firmware/nanopi-r2s/" ..dateyr.. "-openwrt-rockchip-armv8-nanopi-r2s-squashfs-sysupgrade.img.gz"
     elseif model:match(".*HC5962.*") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/hiwifi-hc5962/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		remoteformat = luci.sys.exec("date -d $(echo " ..remote_version.. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-		if remoteformat > sysverformat then needs_update = true else needs_update = false end
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
         download_url = "https://op.supes.top/firmware/hiwifi-hc5962/" ..dateyr.. "-openwrt-ramips-mt7621-hiwifi_hc5962-squashfs-sysupgrade.bin"
     elseif model:match(".*D2") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/newifi-d2/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
-		needs_update = api.compare_versions(get_system_version(), "<", remote_version)
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
         download_url = "https://op.supes.top/firmware/newifi-d2/" ..dateyr.. "-openwrt-ramips-mt7621-newifi-d2-squashfs-sysupgrade.bin"
     elseif model:match(".*XIAOYU") then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/XY-C5/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
 		dateyr = luci.sys.exec("echo " ..remote_version.. " | awk -F. '{printf $1\".\"$2}'")
 		remoteformat = luci.sys.exec("date -d $(echo " ..remote_version.. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-		if remoteformat > sysverformat then needs_update = true else needs_update = false end
+		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
         download_url = "https://op.supes.top/firmware/XY-C5/" ..dateyr.. "-openwrt-ramips-mt7621-xiaoyu_xy-c5-squashfs-sysupgrade.bin"
 	else
 		local needs_update = false
