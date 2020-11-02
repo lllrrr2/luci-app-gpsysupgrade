@@ -17,7 +17,7 @@ function to_check(model)
     local download_url,remote_version,needs_update,remoteformat,sysverformat,currentTimeStamp,dateyr
 	local version_file = "/tmp/version.txt"
 	sysverformat = luci.sys.exec("date -d $(echo " ..get_system_version().. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-	currentTimeStamp = luci.sys.exec("expr $(date -d \"+%Y-%m-%d %H:%M:%S\" +%s) - 259200")
+	currentTimeStamp = luci.sys.exec("expr $(date -d \"$(date '+%Y-%m-%d %H:%M:%S')\" +%s) - 259200")
 	if model == "x86_64" then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/x86_64/version.txt"}, nil, api.command_timeout)
 		remote_version = luci.sys.exec("[ -f '" ..version_file.. "' ] && echo -n `cat " ..version_file.. "`")
