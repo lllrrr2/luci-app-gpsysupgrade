@@ -178,8 +178,8 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 
 	</div>
 <div id="retain" style="display:none;margin:0.5rem;">
-	<p style="margin-top:0.4rem;"><label class="btn"><input type="checkbox" checked id="kconfig"> <%:Keep settings and retain the current configuration%></label></p>
-<p style="margin-top:0.4rem;"><label class="btn"><input type="checkbox" checked id="kopkg"> <%:Retain the current packages%></label></p>
+	<p style="margin-top:0.4rem;"><button class="btn"><input type="checkbox" checked id="kconfig"> <%:Keep settings and retain the current configuration%></button></p>
+<p style="margin-top:0.5rem;"><button class="btn"><input type="checkbox" checked id="kopkg"> <%:Retain the current packages%></button></p>
 </div>
 						<input class="cbi-button cbi-input-apply cbi-button-reset" type="button" id="_sysup-check_btn" onclick="onBtnClick_sysup(this);" value="<%:Check update%>" style="margin-top:0.5rem;"/>
 			
