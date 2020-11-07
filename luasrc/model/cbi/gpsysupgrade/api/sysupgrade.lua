@@ -102,8 +102,8 @@ function to_check(model)
         update = needs_update,
         now_version = get_system_version(),
         version = remote_version,
-		logs = luci.sys.exec("[ -f '" ..updatelogs.. "' ] && echo `cat " ..updatelogs.. "`"),
-        url = {download = download_url}
+	logs = luci.sys.exec("[ -f '" ..updatelogs.. "' ] && echo `cat " ..updatelogs.. "`"),
+        url = download_url
     }
 end
 
