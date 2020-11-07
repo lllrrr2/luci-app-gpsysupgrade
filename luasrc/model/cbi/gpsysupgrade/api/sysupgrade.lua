@@ -11,14 +11,14 @@ function get_system_version()
     return system_version
 end
 
-function to_check(model)
+function to_check()
     if not model or model == "" then model = api.auto_get_model() end
     
     local download_url,remote_version,needs_update,remoteformat,sysverformat,currentTimeStamp,dateyr
 	local version_file = "/tmp/version.txt"
 	local updatelogs = "/tmp/updatelogs.txt"
 	sysverformat = luci.sys.exec("date -d $(echo " ..get_system_version().. " | awk -F. '{printf $3\"-\"$1\"-\"$2}') +%s")
-	currentTimeStamp = luci.sys.exec("expr $(date -d \"$(date '+%Y-%m-%d %H:%M:%S')\" +%s) - 259200")
+	currentTimeStamp = luci.sys.exec("expr $(date -d \"$(date '+%Y-%m-%d %H:%M:%S')\" +%s) - 172800")
 	if model == "x86_64" then
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", version_file, "https://op.supes.top/firmware/x86_64/version.txt"}, nil, api.command_timeout)
 		api.exec(api.wget, {api._unpack(api.wget_args), "-O", updatelogs, "https://op.supes.top/firmware/x86_64/updatelogs.txt"}, nil, api.command_timeout)
@@ -131,7 +131,7 @@ end
 
 function to_flash(file,retain)
     if not file or file == "" or not fs.access(file) then
-		api.exec("/bin/rm", {"-f", tmp_file})
+		api.exec("/bin/rm", {"-f", file})
         return {code = 1, error = i18n.translate("Firmware file is required.")}
     end
 if not retain or retain == "" then
@@ -141,7 +141,7 @@ else
 end
 
     if not result or not fs.access(file) then
-        api.exec("/bin/rm", {"-f", tmp_file})
+        api.exec("/bin/rm", {"-f", file})
         return {
             code = 1,
             error = i18n.translatef("System upgrade failed")
