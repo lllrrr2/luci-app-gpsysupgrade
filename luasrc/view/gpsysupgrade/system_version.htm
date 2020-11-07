@@ -3,9 +3,6 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 -%>
 <%+header%>
 <h2 name="content"><%:System upgrade%></h2>
-
-
-
 <%- local c = require("luci.model.uci").cursor():changes(); if c and next(c) then -%>
 	<p class="alert-message warning"><%:Warning: There are unsaved changes that will get lost on reboot!%></p>
 <%- end -%>
@@ -23,9 +20,6 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 	var downloadingText = '<%:Downloading...%>';
 	var flashing = '<%:Flashing...%>';
 	var checking = '<%:Checking...%>';
-
-
-
 
 	window.onload = function() {
 		var sysupCheckBtn = document.getElementById('_sysup-check_btn');
@@ -173,16 +167,10 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 		<%:Current system version%>
 	</label>
 	
-	<div class="cbi-value-field">
 		<div class="cbi-value-description">
 			<span>【 <%=system_version%> 】</span>
 		&nbsp;&nbsp;&nbsp;<span id="_sysup-check_btn-detail"></span>
-		
-
-
 		</div>
-
-	</div>
 	<p class="alert alert-message" id="updatelogs"></p>
 <div id="retain" style="display:none;margin:0.5rem;">
 	<p style="margin-top:0.4rem;"><button class="btn"><input type="checkbox" checked id="kconfig"> <%:Keep settings and retain the current configuration%></button></p>
