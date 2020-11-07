@@ -59,7 +59,7 @@ msgid "New version available"
 msgstr "新版本可用"
 
 msgid "Upgrade successful, Waiting for device..."
-msgstr "更新成功, 等待设备重启..."
+msgstr "更新成功, 等待设备重启后响应..."
 
 msgid "Device unreachable! Still waiting for device..."
 msgstr "无法连接设备! 继续等待..."
