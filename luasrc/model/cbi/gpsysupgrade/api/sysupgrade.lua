@@ -131,7 +131,6 @@ end
 
 function to_flash(file,retain)
     if not file or file == "" or not fs.access(file) then
-		api.exec("/bin/rm", {"-f", tmp_file})
         return {code = 1, error = i18n.translate("Firmware file is required.")}
     end
 if not retain or retain == "" then
@@ -141,7 +140,6 @@ else
 end
 
     if not result or not fs.access(file) then
-        api.exec("/bin/rm", {"-f", tmp_file})
         return {
             code = 1,
             error = i18n.translatef("System upgrade failed")
