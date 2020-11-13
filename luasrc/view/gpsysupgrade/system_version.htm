@@ -147,14 +147,15 @@ local system_version = require "luci.model.cbi.gpsysupgrade.api.sysupgrade".get_
 		if (!kconfig.checked && kopkg.checked){
 			opts = "-n -k";
 			}
+				removePageNotice_sysup();
+				check();
 						XHR.get(sysUpgradeUrl, {
 							token: tokenStr,
 							task: 'flash',
 							file: json.file,
 							retain: opts
 						}, function(x,json) {
-							removePageNotice_sysup();
-							check();
+							
 						},300)
 			}
 		},300)
