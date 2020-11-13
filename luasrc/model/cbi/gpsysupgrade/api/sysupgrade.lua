@@ -131,17 +131,17 @@ end
 
 function to_flash(file,retain)
     if not file or file == "" or not fs.access(file) then
-		api.exec("/bin/rm", {"-f", file})
+		api.exec("/bin/rm", {"-f", tmp_file})
         return {code = 1, error = i18n.translate("Firmware file is required.")}
     end
 if not retain or retain == "" then
-	local result = sys.call("/sbin/sysupgrade " ..file) == 0
+	local result = api.exec("/sbin/sysupgrade", {file}, nil, api.command_timeout) == 0
 else
-	local result = sys.call("/sbin/sysupgrade " ..retain.. " " ..file) == 0
+	local result = api.exec("/sbin/sysupgrade", {retain, file}, nil, api.command_timeout) == 0
 end
 
     if not result or not fs.access(file) then
-        api.exec("/bin/rm", {"-f", file})
+        api.exec("/bin/rm", {"-f", tmp_file})
         return {
             code = 1,
             error = i18n.translatef("System upgrade failed")
